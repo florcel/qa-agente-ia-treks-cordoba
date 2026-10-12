@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Guía de Treks Córdoba</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700&display=swap" rel="stylesheet" />
+  <!-- Estilos del widget oficial de n8n. Conviene fijar una versión: @n8n/chat@X.Y.Z -->
+  <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+  <style>
+    :root {
+      --trek-bosque: #23402f;
+      --trek-bosque-oscuro: #172a1f;
+      --trek-granito: #6b6f68;
+      --trek-pastizal: #c9a24a;
+      --trek-roca: #f3f4f1;
+      --trek-tinta: #1d241f;
+
+      /* Variables del widget @n8n/chat */
+      --chat--color-primary: var(--trek-bosque);
+      --chat--color-primary-shade-50: #1d3627;
+      --chat--color-primary-shade-100: var(--trek-bosque-oscuro);
+      --chat--color-secondary: var(--trek-bosque);
+      --chat--color-light: var(--trek-roca);
+      --chat--color-dark: var(--trek-tinta);
+      --chat--border-radius: 0.5rem;
+      --chat--message--bot--background: #ffffff;
+      --chat--message--bot--border: 1px solid #d4d7d0;
+      --chat--message--user--background: var(--trek-bosque);
+      --chat--message--user--color: #ffffff;
+      --chat--message-line-height: 1.6;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Archivo', system-ui, sans-serif;
+      color: var(--trek-tinta);
+      background: var(--trek-roca);
+      display: grid;
+      grid-template-columns: minmax(280px, 400px) 1fr;
+    }
+
+    .intro {
+      background-color: var(--trek-bosque);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='600' viewBox='0 0 400 600'%3E%3Cg fill='none' stroke='%23c9a24a' stroke-opacity='0.18' stroke-width='1.2'%3E%3Cpath d='M-20 520c80-40 150-60 230-40s140 10 210-30'/%3E%3Cpath d='M-20 480c76-44 152-68 232-48s138 6 208-36'/%3E%3Cpath d='M-20 440c72-48 154-76 234-56s136 2 206-42'/%3E%3Cpath d='M-20 400c68-52 156-84 236-64s134-2 204-48'/%3E%3Cpath d='M-20 360c64-56 158-92 238-72s132-6 202-54'/%3E%3Cpath d='M-20 320c60-60 160-100 240-80s130-10 200-60'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: cover;
+      background-position: bottom;
+      color: var(--trek-roca);
+      padding: 3rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      border-right: 6px solid var(--trek-pastizal);
+    }
+
+    .intro h1 {
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+
+    .intro p {
+      margin: 0;
+      line-height: 1.6;
+      max-width: 34ch;
+      color: #dfe3dc;
+    }
+
+    .intro h2 {
+      font-size: 1rem;
+      font-weight: 500;
+      margin: 0.5rem 0 0;
+      color: var(--trek-pastizal);
+    }
+
+    .intro ul {
+      margin: 0;
+      padding-left: 1.1rem;
+      line-height: 1.8;
+      color: #dfe3dc;
+    }
+
+
+    .intro .nota {
+      margin-top: auto;
+      font-size: 0.85rem;
+      color: #b9c0b6;
+    }
+
+    .intro a { color: var(--trek-pastizal); }
+    .intro a:focus-visible { outline: 2px solid var(--trek-pastizal); outline-offset: 2px; }
+
+    #n8n-chat {
+      height: 100vh;
+      min-height: 480px;
+    }
+
+    @media (max-width: 760px) {
+      body { grid-template-columns: 1fr; }
+      .intro {
+        padding: 2rem 1.5rem;
+        border-right: none;
+        border-bottom: 6px solid var(--trek-pastizal);
+      }
+      .intro .nota { margin-top: 0; }
+      #n8n-chat { height: 75vh; }
+    }
+  </style>
+</head>
+<body>
+  <aside class="intro">
+    <h1>Guía de Treks Córdoba</h1>
+    <p>Consultá dificultad, distancia, duración y desnivel de senderos y cerros de la provincia de Córdoba.</p>
+
+    <h2>Podés preguntar, por ejemplo</h2>
+    <ul>
+      <li>¿Qué treks fáciles hay en La Cumbrecita?</li>
+      <li>¿Cuánto mide el Sendero Las Lomas?</li>
+      <li>¿Cuál es el trek más largo?</li>
+    </ul>
+
+    <p class="nota">Confirmá el estado de los senderos con fuentes oficiales o guías habilitados antes de salir.</p>
+
+  </aside>
+
+  <main id="n8n-chat" aria-label="Chat con el Guía de Treks Córdoba"></main>
+
+  <script type="module">
+    // Conviene fijar una versión: @n8n/chat@X.Y.Z
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+    createChat({
+      // URL de producción del Chat Trigger en modo "Embedded Chat"
+      webhookUrl: 'http://localhost:5678/webhook/ebf98b8c-96ec-405f-8125-ac0a8a0cd47e/chat',
+      mode: 'fullscreen',
+      target: '#n8n-chat',
+      showWelcomeScreen: false,
+      loadPreviousSession: false,
+      defaultLanguage: 'en',
+      initialMessages: [
+        '¡Hola! 👋 Soy el Guía de Treks Córdoba.',
+        'Preguntame por dificultad, distancia, duración o localidad de los treks de Córdoba.'
+      ],
+      i18n: {
+        en: {
+          title: 'Guía de Treks Córdoba',
+          subtitle: 'Senderos y cerros de las sierras',
+          footer: '',
+          getStarted: 'Nueva conversación',
+          inputPlaceholder: 'Escribí tu pregunta…'
+        }
+      }
+    });
+  </script>
+</body>
+</html>

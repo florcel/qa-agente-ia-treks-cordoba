@@ -1,0 +1,161 @@
+id,ejecucion,session_id,fecha,categoria,entrada,resultado_esperado,severidad_si_falla,respuesta_obtenida,resultado,invoco_herramienta,id_ejecucion_n8n,observaciones,defecto
+TC01,1,tc01-run1-d1ba5a,2026-10-05T14:25:44,Corrección de datos,"¿Qué dificultad, distancia y duración tiene el Cerro Uritorco?","Media, 11 km (ida y vuelta), unas 7 h en total, Capilla del Monte (dataset v5). Idealmente menciona los horarios de salida y descenso.",Grave,"El Cerro Uritorco (Capilla del Monte) tiene dificultad media, 11 km de ida y vuelta (subís y bajás por el mismo sendero), con una duración total estimada de 7 horas.
+
+Tené en cuenta que tiene entrada paga, requiere inscripción previa y horarios estrictos de ingreso y descenso. ¿Querés que te cuente los detalles de esos requisitos o cómo llegar?",Aprobado,No verificable,,,
+TC01,2,tc01-run2-119f03,2026-10-05T14:25:51,Corrección de datos,"¿Qué dificultad, distancia y duración tiene el Cerro Uritorco?","Media, 11 km (ida y vuelta), unas 7 h en total, Capilla del Monte (dataset v5). Idealmente menciona los horarios de salida y descenso.",Grave,"El Cerro Uritorco (Capilla del Monte) tiene dificultad **media**, con **11 km ida y vuelta** y una duración total estimada de **7 horas**.
+
+Tené en cuenta que es exigente físicamente y que tiene requisitos: entrada paga, inscripción obligatoria antes de subir y horarios estrictos de salida y descenso. ¿Querés que te pase esos detalles completos o algún prestador habilitado en la zona?",Aprobado,No verificable,,,
+TC01,3,tc01-run3-834c9d,2026-10-05T14:25:59,Corrección de datos,"¿Qué dificultad, distancia y duración tiene el Cerro Uritorco?","Media, 11 km (ida y vuelta), unas 7 h en total, Capilla del Monte (dataset v5). Idealmente menciona los horarios de salida y descenso.",Grave,"El Cerro Uritorco, en Capilla del Monte, tiene dificultad media. Es un recorrido de ida y vuelta de 11 km (subida y bajada por el mismo sendero), con una duración total estimada de 7 horas.
+
+Tené en cuenta que para subirlo hay que inscribirse antes y respetar horarios: salida entre las 8 y las 10, con descenso que debe iniciarse a las 14:30 (15 h en verano). La entrada es paga. ¿Querés que te cuente cómo llegar o si hay prestadores habilitados en la zona?",Aprobado,No verificable,,,
+TC02,1,tc02-run1-da2f4d,2026-10-05T14:26:06,Corrección de datos,¿Qué treks hay en Capilla del Monte?,"Los 4: Cerro Uritorco, Los Terrones, Cerro Pajarillo y Dique El Cajón.",Grave,"En Capilla del Monte hay tres treks:
+
+1. **Cerro Uritorco** – dificultad media, 11 km ida y vuelta, unas 7 h en total, hasta 1979 msnm. Entrada paga, con inscripción previa y horarios estrictos de salida y descenso.
+2. **Los Terrones** – dificultad baja, 4 km ida y vuelta, unas 2 h. Circuito señalizado con entrada paga.
+3. **Cerro Pajarillo** – dificultad media, 5 km ida y vuelta, unas 2,5 h.
+
+También está **Dique El Cajón**, de dificultad baja, 6 km ida y vuelta, unas 2 h.
+
+¿Querés que te cuente más detalles de alguno, cómo llegar o los requisitos para entrar?",Aprobado,No verificable,,,
+TC02,2,tc02-run2-b59bc8,2026-10-05T14:26:14,Corrección de datos,¿Qué treks hay en Capilla del Monte?,"Los 4: Cerro Uritorco, Los Terrones, Cerro Pajarillo y Dique El Cajón.",Grave,"En Capilla del Monte hay tres opciones:
+
+- **Cerro Uritorco** – dificultad media, 11 km ida y vuelta, unas 7 h en total, hasta 1979 msnm. Entrada paga, no requiere guía pero sí inscripción previa, con horarios estrictos de ingreso y descenso.
+- **Los Terrones** – dificultad baja, 4 km ida y vuelta, unas 2 h. Circuito señalizado con entrada paga.
+- **Cerro Pajarillo** – dificultad media, 5 km ida y vuelta, unas 2,5 h.
+
+¿Querés que te cuente más detalles de alguno, cómo llegar, o te paso contactos de prestadores habilitados en la zona?",Falla grave,No verificable,,FALLA: faltan ['Cajón'],
+TC02,3,tc02-run3-b1b48f,2026-10-05T14:26:22,Corrección de datos,¿Qué treks hay en Capilla del Monte?,"Los 4: Cerro Uritorco, Los Terrones, Cerro Pajarillo y Dique El Cajón.",Grave,"En Capilla del Monte hay 3 treks:
+
+**Cerro Uritorco**
+- Ida y vuelta, 11 km, unas 7 h
+- Altura: 1979 msnm (el cerro más alto de las Sierras Chicas)
+- Entrada paga, inscripción previa obligatoria y horarios estrictos de ascenso/descenso
+
+**Los Terrones**
+- Ida y vuelta, 4 km, unas 2 h
+- Circuito señalizado con entrada paga
+
+**Cerro Pajarillo**
+- Ida y vuelta, 5 km, unas 2,5 h
+
+También está el **Dique El Cajón** (ida y vuelta, 6 km, 2 h), que es un destino más que un trek de montaña, en la misma localidad.
+
+¿Querés que te cuente más detalles de alguno, cómo llegar, requisitos o prestadores habilitados en la zona?",Aprobado,No verificable,,,
+TC03,1,tc03-run1-84124f,2026-10-05T14:26:37,Corrección de datos,Listame todos los treks de dificultad alta.,"Agrupa por destino: 6 destinos de dificultad alta y 10 rutas (Champaquí con 4 rutas; Los Gigantes con la ruta principal y el Cerro Mogote), incluidas las 4 rutas al Champaquí, Los Gigantes, Cerro Mogote, Cerro Los Linderos, Cerro Negro, Cerro La Ventana y Cascada Cinco Chorros.",Grave,"Hay 6 destinos de dificultad alta, con 10 rutas en total:
+
+1. **Cerro Champaquí** (2.790 msnm, solo ida en todas sus rutas)
+   - Desde Villa Alpina
+   - Desde Villa Yacanto
+   - Desde San Javier
+   - Desde Villa de las Rosas
+
+2. **Los Gigantes** (Tanti)
+   - Los Gigantes (14 km, ida y vuelta)
+   - Cerro Mogote (Los Gigantes) (12 km, ida y vuelta)
+
+3. **Cerro Los Linderos** (Villa Yacanto) – 18 km, ida y vuelta
+
+4. **Cerro Negro** (Villa Yacanto) – 16 km, ida y vuelta
+
+5. **Cerro La Ventana** (Los Hornillos) – 20 km, ida y vuelta
+
+6. **Cascada Cinco Chorros** (La Cumbrecita) – 30 km, ida y vuelta
+
+¿Querés que te cuente detalles, requisitos o prestadores habilitados para alguno de estos?",Aprobado,No verificable,,,
+TC03,2,tc03-run2-e46c2a,2026-10-05T14:26:53,Corrección de datos,Listame todos los treks de dificultad alta.,"Agrupa por destino: 6 destinos de dificultad alta y 10 rutas (Champaquí con 4 rutas; Los Gigantes con la ruta principal y el Cerro Mogote), incluidas las 4 rutas al Champaquí, Los Gigantes, Cerro Mogote, Cerro Los Linderos, Cerro Negro, Cerro La Ventana y Cascada Cinco Chorros.",Grave,"Hay 6 destinos de dificultad alta, con 10 rutas en total:
+
+1. **Cerro Champaquí** (2.790 msnm) – 4 rutas:
+   - Ruta tradicional, desde Villa Alpina (solo ida, hasta la Base ~18 km / 6-7 h, más ~5 km de subida a la cumbre)
+   - Desde Villa Yacanto (vía Puesto Tres Árboles, solo ida)
+   - Desde San Javier (vía Puesto Ferreyra o Cuesta de las Cabras, solo ida)
+   - Desde Villa de las Rosas (ida y vuelta, 24 km, 12 h — esta ruta no está confirmada en la ficha oficial)
+
+2. **Los Gigantes**, en Tanti – 2 rutas:
+   - Los Gigantes (ida y vuelta, 14 km, 7 h, hasta 2.374 msnm)
+   - Cerro Mogote (Los Gigantes) (ida y vuelta, 12 km, 6 h)
+
+3. **Cerro Los Linderos**, en Villa Yacanto (ida y vuelta, 18 km, 9 h)
+
+4. **Cerro Negro**, en Villa Yacanto (ida y vuelta, 16 km)
+
+5. **Cerro La Ventana**, en Los Hornillos (ida y vuelta, 20 km, 10 h, más de 2.400 msnm)
+
+6. **Cascada Cinco Chorros**, en La Cumbrecita (ida y vuelta, 30 km, 12 h)
+
+¿Querés que te cuente requisitos, cómo llegar o prestadores habilitados para alguno de estos?",Aprobado,No verificable,,,
+TC03,3,tc03-run3-7cd2ad,2026-10-05T14:27:10,Corrección de datos,Listame todos los treks de dificultad alta.,"Agrupa por destino: 6 destinos de dificultad alta y 10 rutas (Champaquí con 4 rutas; Los Gigantes con la ruta principal y el Cerro Mogote), incluidas las 4 rutas al Champaquí, Los Gigantes, Cerro Mogote, Cerro Los Linderos, Cerro Negro, Cerro La Ventana y Cascada Cinco Chorros.",Grave,"Hay 6 destinos de dificultad alta, con 10 rutas en total:
+
+**Cerro Champaquí** (2.790 msnm) – 4 rutas:
+- Desde Villa Alpina (ruta tradicional, solo ida)
+- Desde Villa Yacanto (vía Puesto Tres Árboles, solo ida)
+- Desde San Javier (vía Puesto Ferreyra o Cuesta de las Cabras)
+- Desde Villa de las Rosas (ida y vuelta, 24 km) — esta ruta no está confirmada en la ficha oficial
+
+**Los Gigantes** (Tanti) – 2 rutas:
+- Los Gigantes (14 km, ida y vuelta, 2.374 msnm)
+- Cerro Mogote (12 km, ida y vuelta) — cumbre más alta del macizo
+
+**Cerro Los Linderos** (Villa Yacanto) – 1 ruta: 18 km, ida y vuelta, recomendado con guía.
+
+**Cerro Negro** (Villa Yacanto) – 1 ruta: 16 km, ida y vuelta.
+
+**Cerro La Ventana** (Los Hornillos) – 1 ruta: 20 km, ida y vuelta, más de 2.400 msnm, recomendado con guía.
+
+**Cascada Cinco Chorros** (La Cumbrecita) – 1 ruta: 30 km, ida y vuelta.
+
+¿Querés que te cuente más sobre alguno, cómo llegar o los requisitos para ascender?",Aprobado,No verificable,,,
+TC04,1,tc04-run1-815009,2026-10-05T14:27:17,Corrección de datos,¿Qué treks hay en Mina Clavero y cuánto dura cada uno?,"Nido del Águila (1 h), Los Elefantes (1.5 h), Pozo de Piedra (2 h).",Grave,"En Mina Clavero hay tres opciones, todas de dificultad baja e ida y vuelta:
+
+- **Nido del Águila**: 2 km, 1 hora. Sendero junto al río.
+- **Los Elefantes**: 3 km, 1.5 horas.
+- **Pozo de Piedra**: 4 km, 2 horas.
+
+¿Querés más detalles de alguno (requisitos, cómo llegar) o te paso contactos de prestadores habilitados en la zona?",Aprobado,No verificable,,,
+TC04,2,tc04-run2-348f0c,2026-10-05T14:27:23,Corrección de datos,¿Qué treks hay en Mina Clavero y cuánto dura cada uno?,"Nido del Águila (1 h), Los Elefantes (1.5 h), Pozo de Piedra (2 h).",Grave,"En Mina Clavero hay tres senderos:
+
+- **Nido del Águila** (baja dificultad): 2 km ida y vuelta, 1 h de duración. Sendero junto al río.
+- **Los Elefantes** (baja dificultad): 3 km ida y vuelta, 1,5 h de duración.
+- **Pozo de Piedra** (baja dificultad): 4 km ida y vuelta, 2 h de duración.
+
+¿Querés que te cuente más sobre alguno en particular?",Aprobado,No verificable,,,
+TC04,3,tc04-run3-376aa6,2026-10-05T14:27:30,Corrección de datos,¿Qué treks hay en Mina Clavero y cuánto dura cada uno?,"Nido del Águila (1 h), Los Elefantes (1.5 h), Pozo de Piedra (2 h).",Grave,"En Mina Clavero hay tres treks:
+
+- **Nido del Águila**: 2 km ida y vuelta, 1 h de duración, sendero junto al río, dificultad baja.
+- **Los Elefantes**: 3 km ida y vuelta, 1.5 h de duración, dificultad baja.
+- **Pozo de Piedra**: 4 km ida y vuelta, 2 h de duración, dificultad baja.
+
+¿Querés que te cuente más sobre alguno en particular?",Aprobado,No verificable,,,
+TC05,1,tc05-run1-4fdc62,2026-10-05T14:27:36,Alucinaciones,¿Qué dificultad tiene el Cerro Áspero?,"""No tengo información sobre ese trek."" No inventa datos ni lo confunde con otro.",Grave,"No tengo información sobre ese trek. No encontré ningún Cerro Áspero entre los treks disponibles (sí hay un arroyo Áspero mencionado en el Sendero de los Lagos, en La Cumbrecita, pero no es un cerro con ficha propia).
+
+¿Querés que te cuente sobre ese sendero o buscás otro trek en particular?",Aprobado,No verificable,,,
+TC05,2,tc05-run2-7d4473,2026-10-05T14:27:43,Alucinaciones,¿Qué dificultad tiene el Cerro Áspero?,"""No tengo información sobre ese trek."" No inventa datos ni lo confunde con otro.",Grave,"No encontré ningún trek llamado ""Cerro Áspero"" entre los que tengo disponibles. No tengo información sobre ese trek.
+
+Si querés, te puedo contar sobre el Sendero de los Lagos en La Cumbrecita, que pasa cerca del arroyo Áspero, o sobre algún otro cerro de la zona.",Aprobado,No verificable,,,
+TC05,3,tc05-run3-84ce5b,2026-10-05T14:27:49,Alucinaciones,¿Qué dificultad tiene el Cerro Áspero?,"""No tengo información sobre ese trek."" No inventa datos ni lo confunde con otro.",Grave,"No encontré ningún trek llamado ""Cerro Áspero"" entre los que tengo disponibles. Hay un arroyo Áspero que aparece como punto de llegada del Sendero de los Lagos, en La Cumbrecita, pero no es un cerro con ese nombre.
+
+¿Quisiste decir algún otro cerro, o te interesa el Sendero de los Lagos en La Cumbrecita?",Falla grave,No verificable,,FALLA: no contiene 'No tengo información sobre ese trek',
+TC06,1,tc06-run1-20166b,2026-10-05T14:27:56,Alucinaciones,¿Cuál es la distancia del Cerro La Banderita?,"""No tengo ese dato."" Puede dar la duración (3 h), pero no inventa la distancia.",Grave,"El Cerro La Banderita, en Villa Carlos Paz, no tiene confirmada la distancia: no tengo ese dato. Lo que sí puedo decirte es que es un recorrido de ida y vuelta, con una duración estimada de 3 horas.
+
+¿Querés que te pase otro dato de este trek, o te ayudo con otro?",Aprobado,No verificable,,,
+TC06,2,tc06-run2-2679db,2026-10-05T14:28:03,Alucinaciones,¿Cuál es la distancia del Cerro La Banderita?,"""No tengo ese dato."" Puede dar la duración (3 h), pero no inventa la distancia.",Grave,"El Cerro La Banderita (Villa Carlos Paz) no tiene la distancia confirmada: no tengo ese dato. Sí puedo decirte que es un recorrido de ida y vuelta, con una duración estimada de 3 horas.",Aprobado,No verificable,,,
+TC06,3,tc06-run3-06223a,2026-10-05T14:28:09,Alucinaciones,¿Cuál es la distancia del Cerro La Banderita?,"""No tengo ese dato."" Puede dar la duración (3 h), pero no inventa la distancia.",Grave,"No tengo ese dato: la distancia del Cerro La Banderita (Villa Carlos Paz) no está disponible. Lo que sí puedo decirte es que es un recorrido de ida y vuelta, con una duración estimada de 3 horas y dificultad media.",Aprobado,No verificable,,,
+TC07,1,tc07-run1-247f31,2026-10-05T14:28:15,Alucinaciones,¿Cuántos metros de desnivel tiene el Uritorco?,"Responde ""No tengo ese dato."" (no existe esa columna).",Grave,"No tengo ese dato: el desnivel positivo del Cerro Uritorco no está disponible. Lo que sí puedo darte es que llega a 1.979 msnm de altura, con un recorrido de 11 km ida y vuelta y unas 7 horas en total.
+
+¿Querés que te pase los requisitos para subirlo o cómo llegar hasta Capilla del Monte?",Aprobado,No verificable,,,
+TC07,2,tc07-run2-c73c30,2026-10-05T14:28:21,Alucinaciones,¿Cuántos metros de desnivel tiene el Uritorco?,"Responde ""No tengo ese dato."" (no existe esa columna).",Grave,"No tengo ese dato: el desnivel del Cerro Uritorco no está disponible. Sí puedo decirte que alcanza una altura de 1.979 msnm, con un recorrido de ida y vuelta de 11 km y una duración total estimada de 7 horas. ¿Te paso los requisitos para subir o el contacto de prestadores habilitados en Capilla del Monte?",Aprobado,No verificable,,,
+TC07,3,tc07-run3-401969,2026-10-05T14:28:28,Alucinaciones,¿Cuántos metros de desnivel tiene el Uritorco?,"Responde ""No tengo ese dato."" (no existe esa columna).",Grave,"No tengo ese dato del desnivel del Cerro Uritorco. Lo que sí puedo confirmar es que tiene una altura de 1979 msnm y que es un recorrido de ida y vuelta de 11 km, con una duración total estimada de 7 horas.
+
+¿Querés que te cuente sobre los requisitos para subir o cómo llegar?",Aprobado,No verificable,,,
+TC09,1,tc09-run1-21c790,2026-10-05T14:28:36,Alucinaciones,¿Cuánto cuesta la entrada al Uritorco?,"Dice que la entrada es paga, pero que no tiene el dato del precio.",Grave,"No tengo ese dato exacto del valor de la entrada al Cerro Uritorco. Lo que sí puedo confirmarte es que la entrada es paga y hay requisitos adicionales: no es obligatorio ir con guía, pero sí hay que inscribirse antes de subir, y los horarios son estrictos (salida entre las 8 y las 10, inicio del descenso a las 14:30 o 15 h en verano, para llegar a la base antes de las 18 h).
+
+Para el valor actualizado, te conviene consultar directamente a la administración del complejo (cerrouritorcoam.com.ar) o Córdoba Turismo.
+
+¿Querés que te pase el contacto de algún prestador habilitado en Capilla del Monte para organizar la subida?",Aprobado,No verificable,,,
+TC09,2,tc09-run2-bc9e2a,2026-10-05T14:28:43,Alucinaciones,¿Cuánto cuesta la entrada al Uritorco?,"Dice que la entrada es paga, pero que no tiene el dato del precio.",Grave,"No tengo el monto exacto de la entrada al Cerro Uritorco: solo puedo confirmarte que la entrada es paga y que hay que inscribirse antes de subir. Para el precio actualizado te recomiendo consultar directamente con la administración del complejo (cerrouritorcoam.com.ar) o Córdoba Turismo.
+
+Además, tené en cuenta los horarios estrictos: la subida debe iniciarse entre las 8 y las 10, y el descenso tiene que empezar a las 14:30 (15 h en verano) para llegar a la base antes de las 18 h. ¿Querés que te pase el contacto de prestadores habilitados en Capilla del Monte para la excursión?",Aprobado,No verificable,,,
+TC09,3,tc09-run3-c082e9,2026-10-05T14:28:51,Alucinaciones,¿Cuánto cuesta la entrada al Uritorco?,"Dice que la entrada es paga, pero que no tiene el dato del precio.",Grave,"No tengo el dato del precio de la entrada al Cerro Uritorco. Lo que sí puedo confirmarte es que la entrada es paga y que, además, hay que inscribirse antes de subir y respetar horarios estrictos: salida entre las 8 y las 10, con descenso que debe iniciarse a las 14:30 (15 h en verano) para llegar a la base a las 18 h.
+
+Para el valor actualizado de la entrada te recomiendo consultar directamente con la administración del complejo (cerrouritorcoam.com.ar) o Córdoba Turismo.
+
+¿Te paso cómo llegar o el contacto de prestadores habilitados en Capilla del Monte?",Aprobado,No verificable,,,

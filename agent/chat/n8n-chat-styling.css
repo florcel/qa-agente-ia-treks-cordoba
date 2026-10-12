@@ -1,0 +1,84 @@
+/* Guía de Treks Córdoba — estilos para el chat público de n8n
+   Pegar en Chat Trigger > Options > Custom Chat Styling.
+   Usa las variables CSS del paquete @n8n/chat. Si alguna no tiene efecto,
+   verificá su nombre en la documentación de tu versión de n8n. */
+
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;700&display=swap');
+
+:root {
+  /* Paleta: bosque serrano, granito, pastizal de altura y cielo */
+  --trek-bosque: #23402f;
+  --trek-bosque-oscuro: #172a1f;
+  --trek-granito: #6b6f68;
+  --trek-pastizal: #c9a24a;
+  --trek-cielo: #dce6ea;
+  --trek-roca: #f3f4f1;
+  --trek-tinta: #1d241f;
+
+  --chat--color-primary: var(--trek-bosque);
+  --chat--color-primary-shade-50: #1d3627;
+  --chat--color-primary-shade-100: var(--trek-bosque-oscuro);
+  --chat--color-secondary: var(--trek-bosque);
+  --chat--color-secondary-shade-50: #1d3627;
+  --chat--color-white: #ffffff;
+  --chat--color-light: var(--trek-roca);
+  --chat--color-light-shade-50: #e6e8e3;
+  --chat--color-light-shade-100: #d4d7d0;
+  --chat--color-medium: #c2c6bd;
+  --chat--color-dark: var(--trek-tinta);
+  --chat--color-typing: var(--trek-granito);
+
+  --chat--spacing: 1rem;
+  --chat--border-radius: 0.5rem;
+
+  --chat--header--padding: 1.25rem 1.5rem;
+  --chat--header--background: var(--trek-bosque);
+  --chat--header--color: var(--trek-roca);
+  --chat--header--border-bottom: 4px solid var(--trek-pastizal);
+  --chat--heading--font-size: 1.5rem;
+  --chat--subtitle--font-size: 0.95rem;
+  --chat--subtitle--line-height: 1.5;
+
+  --chat--message--font-size: 0.975rem;
+  --chat--message-line-height: 1.6;
+  --chat--message--padding: 0.75rem 1rem;
+  --chat--message--bot--background: #ffffff;
+  --chat--message--bot--color: var(--trek-tinta);
+  --chat--message--bot--border: 1px solid #d4d7d0;
+  --chat--message--user--background: var(--trek-bosque);
+  --chat--message--user--color: #ffffff;
+  --chat--message--user--border: none;
+
+  --chat--textarea--height: 52px;
+}
+
+/* Tipografía del encabezado */
+.chat-header h1,
+.chat-heading h1 {
+  font-family: 'Archivo', system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* Curvas de nivel en el encabezado, como en un mapa topográfico.
+   Si los nombres de clase no coinciden con tu versión, no rompe nada:
+   el encabezado queda con el color sólido. */
+.chat-header {
+  background-color: var(--trek-bosque);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='120' viewBox='0 0 240 120'%3E%3Cg fill='none' stroke='%23c9a24a' stroke-opacity='0.22' stroke-width='1.2'%3E%3Cpath d='M0 96c40-18 70-30 120-22s80 6 120-14'/%3E%3Cpath d='M0 78c38-20 72-34 122-26s78 4 118-18'/%3E%3Cpath d='M0 60c36-22 74-38 124-30s76 2 116-22'/%3E%3Cpath d='M0 42c34-24 76-42 126-34s74 0 114-26'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: right bottom;
+}
+
+/* Fondo de la conversación */
+.chat-body,
+.chat-messages-list {
+  background: var(--trek-roca);
+}
+
+/* Foco visible para quien navega con teclado */
+.chat-input textarea:focus-visible,
+.chat-input button:focus-visible {
+  outline: 2px solid var(--trek-pastizal);
+  outline-offset: 2px;
+}

@@ -1,0 +1,14 @@
+.env
+__pycache__/
+*.pyc
+.venv/
+.DS_Store
+.pytest_cache/
+
+# Corridas crudas de run_tests.py: contienen respuestas con datos personales
+# reales (contactos de prestadores). Anonimizar con
+# scripts/anonimizar_resultados.py y renombrar (ej. ciclo3_...) antes de subir.
+results/resultados_*.csv
+
+# Datos reales que no se publican (listado completo de prestadores)
+data/privado/
