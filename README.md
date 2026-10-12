@@ -136,6 +136,8 @@ pytest -v
 
 ## Autora
 
-**Florencia Porcel**, QA Engineer. [LinkedIn](#)
+**Florencia Porcel**, QA Engineer · Testing de agentes y LLMs
+
+[LinkedIn](https://www.linkedin.com/in/florenciarmp/)
 
 Proyecto desarrollado con asistencia de IA generativa (Claude) para el diseño de casos, el prompt del agente y el script de automatización. La estrategia, la ejecución, el análisis de los resultados y la detección de los defectos son propios.
