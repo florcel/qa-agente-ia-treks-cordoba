@@ -46,6 +46,12 @@ Cada cambio de prompt o de dataset es una versión nueva. Los resultados de las 
 | Octubre de 2026 | Filtro por localidad definido por el modelo en `buscar_prestadores` | DEF-003 |
 | 6 de octubre de 2026 | Se quitó un filtro por localidad que había quedado en `buscar_treks` | DEF-006. Las corridas hechas con ese filtro no son comparables |
 
+## Criterio de evaluación
+
+| Fecha | Cambio | Motivo |
+|---|---|---|
+| 12 de octubre de 2026 | Criterio único para las expresiones prohibidas, aplicado a todas las respuestas y turnos (`treks_qa/evaluacion.py`). "Figura" se acepta solo en una oración que menciona la fuente (OBS-001). La verificación de cada caso compara por inicio de palabra, no confunde un número con otro que lo contiene ("7" con "17") y revisa `not_contains` en todos los turnos | La misma expresión se calificaba distinto según el caso. Ciclo 2 recalificado: de 51 a 42 casos aprobados sobre 58 |
+
 ## Listado de prestadores
 
 | Versión | Cambio |

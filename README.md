@@ -33,12 +33,13 @@ El detalle está en el [plan de pruebas](docs/plan_de_pruebas.md) y en los [caso
 
 ## Resultados del ciclo 2
 
-**51 de 58 casos aprobados (87,9 %)** con 3 ejecuciones por caso: 0 fallas en prompt injection, 0 fallas graves en alucinaciones y seguridad, 1 falla grave intermitente (conteo en listas) y 6 leves, en su mayoría de redacción. Detalle en el [informe de resultados](docs/informe_resultados.md).
+**42 de 58 casos aprobados (72,4 %)** con 3 ejecuciones por caso: 0 fallas en prompt injection, 0 fallas graves en alucinaciones y seguridad, 1 falla grave intermitente (conteo en listas) y 15 leves. De los 16 casos que no aprueban, 12 tienen el dato correcto pero una redacción que expone detalles internos. Detalle en el [informe de resultados](docs/informe_resultados.md).
 
-> **Resultado provisorio.** Una auditoría posterior detectó que el criterio de muletillas (DEF-005) no se aplicó de forma uniforme entre casos. El ciclo 2 se va a recalificar con un criterio único y automatizado.
+> **Recalificado.** El resultado publicado originalmente era 51 de 58 (87,9 %). Una auditoría de las propias pruebas detectó que la misma expresión se calificaba distinto según el caso. Las 174 respuestas se recalificaron con un criterio único, automatizado y probado con pytest, sin volver a ejecutar el agente.
 
 ## Hallazgos destacados
 
+- **El evaluador también se prueba.** El resultado del ciclo 2 bajó de 87,9 % a 72,4 % al recalificarlo: "altura registrada" era falla en un caso y "tengo registrados 75 treks" aprobaba en otro. Ahora un criterio único revisa todas las respuestas, con pruebas unitarias hechas a partir de frases reales del ciclo 2. El mismo trabajo encontró una contradicción en el prompt (OBS-001).
 - **Un defecto que parecía del modelo y era de la herramienta (DEF-003).** El agente decía que no había guías en ninguna zona y mostraba siempre al mismo prestador. No era una alucinación: un filtro sin valor buscaba celdas vacías y encontraba la única fila sin localidad. Se detectó revisando el log de la herramienta, no la respuesta.
 - **Omisiones en listas largas (DEF-001).** El agente omitía treks al filtrar. Se corrigió obligándolo a decir cuántos resultados hay antes de listarlos.
 - **Las fuentes oficiales también tienen errores.** Fichas contradictorias, valores imposibles y escalas de dificultad incompatibles. Están documentados en [defectos.md](docs/defectos.md#hallazgos-de-calidad-en-las-fuentes-de-datos).
@@ -72,7 +73,10 @@ La evolución del prompt y del dataset, con el motivo de cada cambio, está en e
 │   ├── treks_cordoba_v8.csv
 │   └── prestadores_ejemplo_anonimizado.csv
 ├── results/                     Resultados de las corridas (anonimizados)
+├── treks_qa/
+│   └── evaluacion.py            Verificaciones deterministas y criterio único de evaluación
 ├── scripts/
+│   ├── recalificar_resultados.py Recalifica resultados guardados sin llamar al agente
 │   ├── anonimizar_resultados.py Detecta y reemplaza datos personales en los resultados
 │   └── sanear_workflow.py       Quita credenciales e IDs de un workflow exportado
 └── tests/                       Pruebas offline con pytest (no llaman al agente)
@@ -130,9 +134,10 @@ pytest -v
 - [x] Ciclo 2 completo con la configuración congelada (prompt v12 + dataset v8)
 - [x] Informe de resultados del ciclo 2
 - [x] Workflow saneado en el repositorio y control automático de datos personales en los resultados
-- [ ] Recalificación del ciclo 2 con un criterio único y automatizado
+- [x] Recalificación del ciclo 2 con un criterio único y automatizado
 - [ ] Corrección de DEF-008 (pasos intermedios en el chat público)
-- [ ] Corrección de DEF-004 y DEF-007, y nuevo ciclo para alcanzar el 90 %
+- [ ] Reducir DEF-005 y resolver OBS-001 en el prompt v13
+- [ ] Corrección de DEF-004 y DEF-007, y nuevo ciclo
 
 ## Autora
 

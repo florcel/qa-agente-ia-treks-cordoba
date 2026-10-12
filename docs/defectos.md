@@ -8,7 +8,7 @@ Registro de los defectos detectados durante el proyecto. La plantilla completa e
 | DEF-002 | Textos por defecto de la interfaz del chat | Configuración | Leve | Corregido |
 | DEF-003 | La herramienta de prestadores devuelve un solo resultado erróneo | Herramienta / datos | Grave | Corregido |
 | DEF-004 | Conteo incorrecto en listas | Modelo / datos | Grave | Abierto: reducido a 1 de 3 ejecuciones |
-| DEF-005 | Muletillas que exponen el funcionamiento interno | Modelo / prompt | Leve | Abierto: 9,8 % de las respuestas del ciclo 2 |
+| DEF-005 | Muletillas que exponen el funcionamiento interno | Modelo / prompt | Leve | Abierto: 9,8 % de las respuestas y 12 de los 16 casos que no aprobaron en el ciclo 2 |
 | DEF-006 | Bucle de herramientas por un filtro mal aplicado | Configuración | Grave | Corregido |
 | DEF-007 | No vuelve a consultar la herramienta en el segundo turno | Modelo / prompt | Leve | Abierto |
 | DEF-008 | El chat público expone los pasos intermedios del agente | Configuración | Grave | Abierto |
@@ -55,6 +55,7 @@ Registro de los defectos detectados durante el proyecto. La plantilla completa e
 - **Causa:** el modelo tiende a explicitar sus limitaciones. Prohibir cada palabra reduce la frecuencia, pero aparecen variantes nuevas.
 - **Corrección parcial:** reglas en la sección "CÓMO HABLAR" (v4, v6, v10 y v11), incluida una instrucción positiva sobre qué hacer en su lugar.
 - **Estado:** abierto. En el ciclo 2 aparecieron en 17 de 174 respuestas (9,8 %), por ejemplo "tengo registrados 75 treks" (TC41, en las 3 ejecuciones) o "marcado como ejemplo en la fuente" (TC12).
+- **Recalificación (12 de octubre de 2026):** en el ciclo 2, estas expresiones se marcaron como falla en algunos casos y como aprobado en otros. Ahora las controla un criterio único y automatizado en todas las respuestas (`treks_qa/evaluacion.py`). Con ese criterio, 12 de los 16 casos que no aprueban fallan por este defecto. Detalle en el [informe de resultados](informe_resultados.md#recalificación-con-criterio-único).
 
 ## DEF-006: Bucle de herramientas por un filtro mal aplicado
 
@@ -79,6 +80,17 @@ Registro de los defectos detectados durante el proyecto. La plantilla completa e
 - **Riesgo:** expone la configuración que el prompt protege y, si incluye las filas devueltas, los contactos de prestadores sin el límite de 5. Hoy n8n corre en `localhost`, así que el impacto real es bajo mientras no se publique el chat.
 - **Corrección propuesta:** separar un workflow público (sin pasos intermedios) de uno de pruebas (con pasos intermedios y webhook protegido con autenticación), y agregar un caso automatizado que verifique que la respuesta del chat público no contiene `intermediateSteps`.
 - **Estado:** abierto.
+
+## Observaciones sobre el prompt
+
+### OBS-001: Instrucciones contradictorias sobre "figura"
+
+- **Detección:** al definir el criterio único de recalificación, 12 de octubre de 2026.
+- **Qué pasa:** el prompt v12 dice en la sección de fuentes *"Podés informar `dificultad_fuente` tal como figura"* y en "Cómo hablar" *"No uses expresiones como 'figura'"*. El modelo recibe dos instrucciones incompatibles para el mismo caso (informar la escala original de la fuente).
+- **Efecto:** en TC47 y TC48 el agente cita la escala de la fuente con "figura", siguiendo la primera instrucción. Con la regla literal serían fallas; el criterio único las acepta cuando la oración menciona la fuente.
+- **Capa:** prompt. No es un error del modelo.
+- **Corrección propuesta (prompt v13):** reemplazar la primera frase por *"Podés informar `dificultad_fuente` con el texto de la fuente, por ejemplo: 'En la escala de la fuente es 20 HKG / 35 RNG'"*, para que la única instrucción sobre "figura" sea no usarla.
+- **Estado:** abierta.
 
 ---
 

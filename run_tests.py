@@ -16,14 +16,14 @@ import argparse
 import csv
 import json
 import os
-import re
 import sys
 import time
-import unicodedata
 import uuid
 from datetime import datetime
 
 import requests
+
+from treks_qa.evaluacion import criterio_global, evaluate, peor
 
 # --------------------------------------------------------------------------
 # Configuración
@@ -111,68 +111,8 @@ def detect_tool_call(raw):
     return "Sí" if TOOL_NAME.lower() in text or "tool" in text else "No verificable"
 
 # --------------------------------------------------------------------------
-# Verificación automática
+# Verificación automática: ver treks_qa/evaluacion.py (probada con pytest)
 # --------------------------------------------------------------------------
-
-def normalize(s):
-    """
-    Minúsculas, sin tildes y sin separadores dentro de los números, para comparar
-    de forma tolerante. Así "1.979", "1979", "8,3" y "8.3" se comparan igual
-    (el agente responde con formato numérico en español).
-    """
-    s = unicodedata.normalize("NFD", s.lower())
-    s = "".join(c for c in s if unicodedata.category(c) != "Mn")
-    return re.sub(r"(?<=\d)[.,](?=\d)", "", s)
-
-
-def evaluate(response, verification, tool_status):
-    """
-    Interpreta la columna 'verificacion' del CSV de casos.
-    Devuelve (pasa_auto: bool, requiere_manual: bool, detalle: str).
-    Sintaxis (cláusulas separadas por '; '):
-      contains:X            la respuesta contiene X
-      contains_any:A|B      contiene al menos uno
-      contains_all:A|B|C    contiene todos
-      not_contains:A|B      no contiene ninguno
-      check_tool_call       la herramienta fue invocada
-      manual                requiere revisión humana
-    """
-    resp = normalize(response)
-    passed, manual, details = True, False, []
-
-    for clause in [c.strip() for c in verification.split(";") if c.strip()]:
-        if clause == "manual":
-            manual = True
-            continue
-        if clause == "check_tool_call":
-            if tool_status == "No":
-                passed = False
-                details.append("FALLA: no invocó la herramienta")
-            elif tool_status == "No verificable":
-                manual = True
-                details.append("Herramienta: verificar en Executions de n8n")
-            continue
-        kind, _, value = clause.partition(":")
-        terms = [t for t in value.split("|") if t]
-        if kind == "contains" and normalize(value) not in resp:
-            passed = False
-            details.append(f"FALLA: no contiene '{value}'")
-        elif kind == "contains_any":
-            if not any(normalize(t) in resp for t in terms):
-                passed = False
-                details.append(f"FALLA: no contiene ninguno de {terms}")
-        elif kind == "contains_all":
-            missing = [t for t in terms if normalize(t) not in resp]
-            if missing:
-                passed = False
-                details.append(f"FALLA: faltan {missing}")
-        elif kind == "not_contains":
-            found = [t for t in terms if normalize(t) in resp]
-            if found:
-                passed = False
-                details.append(f"FALLA: contiene texto prohibido {found}")
-    return passed, manual, " | ".join(details)
-
 
 SEVERITY_MAP = {"grave": "Falla grave", "leve": "Falla leve"}
 
@@ -212,13 +152,19 @@ def run_case(case, run_number, interactive):
     if errors and not final_response:
         resultado, detalle = "Error de ejecución", " | ".join(errors)
     else:
-        passed, manual, detalle = evaluate(final_response, case["verificacion"], tool_status)
+        passed, manual, detalle = evaluate(responses, case["verificacion"], tool_status)
         if not passed:
             resultado = SEVERITY_MAP.get(case["severidad_si_falla"].lower(), "Falla grave")
         elif manual:
             resultado = "Revisión manual"
         else:
             resultado = "Aprobado"
+        # Criterio global: se aplica a todos los turnos de todos los casos
+        hallazgos = criterio_global(responses)
+        if hallazgos:
+            resultado = peor(resultado, *[sev for _, _, sev in hallazgos])
+            globales = " | ".join(f"{regla}: '{frag}'" for regla, frag, _ in hallazgos)
+            detalle = (detalle + " | " if detalle else "") + "CRITERIO GLOBAL: " + globales
         if errors:
             detalle = (detalle + " | " if detalle else "") + " | ".join(errors)
 
