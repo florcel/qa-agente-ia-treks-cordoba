@@ -23,6 +23,7 @@ from datetime import datetime
 
 import requests
 
+from treks_qa import trayectoria
 from treks_qa.evaluacion import criterio_global, evaluate, peor
 
 # --------------------------------------------------------------------------
@@ -52,15 +53,14 @@ RESPONSE_FIELD = os.getenv("N8N_RESPONSE_FIELD", "output")
 EXTRA_PAYLOAD = json.loads(os.getenv("N8N_EXTRA_PAYLOAD", "{}"))  # ej. {"action": "sendMessage"}
 AUTH_HEADER_NAME = os.getenv("N8N_AUTH_HEADER_NAME", "")
 AUTH_HEADER_VALUE = os.getenv("N8N_AUTH_HEADER_VALUE", "")
-TOOL_NAME = os.getenv("AGENT_TOOL_NAME", "buscar_treks")
 TIMEOUT = int(os.getenv("REQUEST_TIMEOUT", "120"))
 
 TURN_SEPARATOR = " || "
 OUTPUT_COLUMNS = [
     "id", "ejecucion", "session_id", "fecha", "categoria", "entrada",
     "resultado_esperado", "severidad_si_falla", "respuesta_obtenida",
-    "resultado", "invoco_herramienta", "id_ejecucion_n8n", "observaciones",
-    "defecto",
+    "resultado", "invoco_herramienta", "herramientas_llamadas", "trayectoria",
+    "latencia_s", "id_ejecucion_n8n", "observaciones", "defecto",
 ]
 
 # --------------------------------------------------------------------------
@@ -96,19 +96,11 @@ def send_message(message, session_id):
     return "", None, f"Error de conexión: {last_error}"
 
 
-def detect_tool_call(raw):
-    """
-    Detecta si el agente invocó la herramienta. Solo funciona si la respuesta
-    del webhook incluye los pasos intermedios del AI Agent (en muchas versiones,
-    opción 'Return Intermediate Steps'). Si no, devuelve 'No verificable'.
-    """
-    if not isinstance(raw, dict) or "intermediateSteps" not in raw:
+def tool_status_from_calls(calls):
+    """Sí / No / No verificable, a partir de las llamadas extraídas de un turno."""
+    if calls is None:
         return "No verificable"
-    steps = raw.get("intermediateSteps") or []
-    text = json.dumps(steps, ensure_ascii=False).lower()
-    if not steps:
-        return "No"
-    return "Sí" if TOOL_NAME.lower() in text or "tool" in text else "No verificable"
+    return "Sí" if calls else "No"
 
 # --------------------------------------------------------------------------
 # Verificación automática: ver treks_qa/evaluacion.py (probada con pytest)
@@ -120,10 +112,11 @@ SEVERITY_MAP = {"grave": "Falla grave", "leve": "Falla leve"}
 # Ejecución de casos
 # --------------------------------------------------------------------------
 
-def run_case(case, run_number, interactive):
+def run_case(case, run_number, interactive, raw_dir=None):
     turns = case["entrada"].split(TURN_SEPARATOR)
     session_id = f"{case['id'].lower()}-run{run_number}-{uuid.uuid4().hex[:6]}"
     responses, tool_statuses, errors = [], [], []
+    calls_by_turn, latencies, raw_log = [], [], []
 
     for turn in turns:
         # Pasos manuales: texto entre [corchetes] al inicio del turno
@@ -132,11 +125,23 @@ def run_case(case, run_number, interactive):
             print(f"    PASO MANUAL: {action.strip('[ ')}")
             input("    Hacé el paso y presioná Enter para continuar...")
             turn = turn.strip()
+        start = time.perf_counter()
         text, raw, err = send_message(turn, session_id)
+        latencies.append(time.perf_counter() - start)
         responses.append(text)
-        tool_statuses.append(detect_tool_call(raw))
+        calls = trayectoria.extraer_llamadas(raw)
+        calls_by_turn.append(calls)
+        tool_statuses.append(tool_status_from_calls(calls))
+        raw_log.append({"mensaje": turn, "latencia_s": round(latencies[-1], 2), "respuesta": raw})
         if err:
             errors.append(err)
+
+    # Respuesta completa del webhook, para auditar la trayectoria. Puede contener
+    # datos personales (filas de prestadores): se guarda en results/raw/, ignorado por git.
+    if raw_dir:
+        with open(os.path.join(raw_dir, f"{session_id}.json"), "w", encoding="utf-8") as f:
+            json.dump({"id": case["id"], "ejecucion": run_number, "turnos": raw_log}, f,
+                      ensure_ascii=False, indent=2)
 
     final_response = responses[-1] if responses else ""
     full_log = "\n---\n".join(responses) if len(responses) > 1 else final_response
@@ -149,6 +154,7 @@ def run_case(case, run_number, interactive):
     else:
         tool_status = "No verificable"
 
+    estado_tray = ""
     if errors and not final_response:
         resultado, detalle = "Error de ejecución", " | ".join(errors)
     else:
@@ -165,6 +171,11 @@ def run_case(case, run_number, interactive):
             resultado = peor(resultado, *[sev for _, _, sev in hallazgos])
             globales = " | ".join(f"{regla}: '{frag}'" for regla, frag, _ in hallazgos)
             detalle = (detalle + " | " if detalle else "") + "CRITERIO GLOBAL: " + globales
+        # Trayectoria: herramientas llamadas en cada turno frente a las esperadas
+        estado_tray, detalle_tray = trayectoria.evaluar(calls_by_turn, case.get("herramientas_esperadas", ""))
+        if estado_tray == trayectoria.FALLA:
+            resultado = peor(resultado, SEVERITY_MAP.get(case["severidad_si_falla"].lower(), "Falla grave"))
+            detalle = (detalle + " | " if detalle else "") + "TRAYECTORIA: " + detalle_tray
         if errors:
             detalle = (detalle + " | " if detalle else "") + " | ".join(errors)
 
@@ -180,6 +191,9 @@ def run_case(case, run_number, interactive):
         "respuesta_obtenida": full_log,
         "resultado": resultado,
         "invoco_herramienta": tool_status,
+        "herramientas_llamadas": trayectoria.describir(calls_by_turn),
+        "trayectoria": estado_tray,
+        "latencia_s": round(sum(latencies), 2),
         "id_ejecucion_n8n": "",
         "observaciones": detalle,
         "defecto": "",
@@ -227,6 +241,8 @@ def main():
 
     os.makedirs(args.output_dir, exist_ok=True)
     out_path = os.path.join(args.output_dir, f"resultados_{datetime.now():%Y-%m-%d_%H%M}.csv")
+    raw_dir = os.path.join(args.output_dir, "raw", os.path.splitext(os.path.basename(out_path))[0])
+    os.makedirs(raw_dir, exist_ok=True)
 
     print(f"Ejecutando {len(cases)} casos x {args.runs} ejecuciones -> {out_path}")
     if skipped:
@@ -240,7 +256,7 @@ def main():
             for n in range(1, args.runs + 1):
                 print(f"  {case['id']} ejecución {n}...", end=" ", flush=True)
                 try:
-                    row = run_case(case, n, args.interactive)
+                    row = run_case(case, n, args.interactive, raw_dir)
                 except KeyboardInterrupt:
                     raise
                 except Exception as e:  # un caso con error no corta la suite

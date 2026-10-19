@@ -10,8 +10,8 @@ Registro de los defectos detectados durante el proyecto. La plantilla completa e
 | DEF-004 | Conteo incorrecto en listas | Modelo / datos | Grave | Abierto: reducido a 1 de 3 ejecuciones |
 | DEF-005 | Muletillas que exponen el funcionamiento interno | Modelo / prompt | Leve | Abierto: 9,8 % de las respuestas y 12 de los 16 casos que no aprobaron en el ciclo 2 |
 | DEF-006 | Bucle de herramientas por un filtro mal aplicado | Configuración | Grave | Corregido |
-| DEF-007 | No vuelve a consultar la herramienta en el segundo turno | Modelo / prompt | Leve | Abierto |
-| DEF-008 | El chat público expone los pasos intermedios del agente | Configuración | Grave | Abierto |
+| DEF-007 | No vuelve a consultar la herramienta en el segundo turno | Modelo / prompt | Leve | Abierto: ahora se detecta automáticamente |
+| DEF-008 | El chat público expone los pasos intermedios del agente | Configuración | Grave | Corregido y verificado |
 
 ---
 
@@ -70,16 +70,18 @@ Registro de los defectos detectados durante el proyecto. La plantilla completa e
 - **Caso:** TC39 (ciclo 2, 3 de 3 ejecuciones).
 - **Qué pasó:** a "¿Y la distancia?", después de preguntar por el Uritorco, el agente respondió correctamente pero desde la memoria de la conversación, sin consultar la herramienta, aunque el prompt lo exige.
 - **Riesgo:** si los datos cambian durante la conversación, o la memoria tiene un dato incompleto, la respuesta puede quedar desactualizada (ver TC40).
+- **Detección automática (19 de octubre de 2026):** desde la evaluación de trayectoria, el runner lo detecta solo. En la corrida de validación, TC39 registró `T1: buscar_treks() → 75 filas | T2: —` y falló por "T2: no llamó buscar_treks" (`results/etapa2_validacion_trayectoria.csv`).
 - **Estado:** abierto.
 
 ## DEF-008: El chat público expone los pasos intermedios del agente
 
 - **Detección:** prueba exploratoria en el chat público, 12 de octubre de 2026, a partir de la auditoría del workflow.
-- **Qué pasó:** con *Return Intermediate Steps* activado en el AI Agent, el Chat Trigger público y *Response Mode* en "When Last Node Finishes", la respuesta HTTP que recibe el navegador incluye `intermediateSteps`. En DevTools (Network → Preview) se ven los nombres de las herramientas (`buscar_treks`, `buscar_prestadores`), sus argumentos (`values0_Value: "Tanti"`) y un registro con bloques de razonamiento del modelo (`thinking`). Falta confirmar si también incluye las filas devueltas por cada herramienta (campo `observation`).
+- **Qué pasó:** con *Return Intermediate Steps* activado en el AI Agent, el Chat Trigger público y *Response Mode* en "When Last Node Finishes", la respuesta HTTP que recibe el navegador incluye `intermediateSteps`. En DevTools (Network → Preview) se ven los nombres de las herramientas (`buscar_treks`, `buscar_prestadores`), sus argumentos (`values0_Value: "Tanti"`) y un registro con bloques de razonamiento del modelo (`thinking`). El workflow de pruebas, copia del público antes de la corrección, confirmó que también incluye las filas devueltas por cada herramienta (campo `observation`): la tabla completa de 75 treks (unos 48.000 caracteres) y todos los prestadores de la localidad buscada, por ejemplo 8 en Tanti, aunque la respuesta muestra solo 5.
 - **Por qué no lo detectaron las pruebas:** TC29, TC30 y TC31 evalúan solo el texto de la respuesta, y ahí el agente se niega correctamente a revelar su configuración. La filtración ocurre por otro canal.
 - **Riesgo:** expone la configuración que el prompt protege y, si incluye las filas devueltas, los contactos de prestadores sin el límite de 5. Hoy n8n corre en `localhost`, así que el impacto real es bajo mientras no se publique el chat.
-- **Corrección propuesta:** separar un workflow público (sin pasos intermedios) de uno de pruebas (con pasos intermedios y webhook protegido con autenticación), y agregar un caso automatizado que verifique que la respuesta del chat público no contiene `intermediateSteps`.
-- **Estado:** abierto.
+- **Corrección (19 de octubre de 2026):** se separaron dos workflows. El público tiene *Return Intermediate Steps* apagado. El de pruebas lo mantiene activado para evaluar la trayectoria, usa el modo *Embedded Chat* y está protegido con *Basic Auth*.
+- **Verificación:** `scripts/verificar_chat_publico.py` envía una pregunta que obliga a usar ambas herramientas y falla si la respuesta del chat público contiene `intermediateSteps`, nombres de herramientas u `observation`. Resultado del 19 de octubre de 2026: OK.
+- **Estado:** corregido y verificado.
 
 ## Observaciones sobre el prompt
 

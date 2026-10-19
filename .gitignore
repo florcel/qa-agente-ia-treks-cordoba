@@ -10,5 +10,8 @@ __pycache__/
 # scripts/anonimizar_resultados.py y renombrar (ej. ciclo3_...) antes de subir.
 results/resultados_*.csv
 
+# Respuestas completas del webhook (pasos intermedios con filas de prestadores)
+results/raw/
+
 # Datos reales que no se publican (listado completo de prestadores)
 data/privado/

@@ -44,7 +44,7 @@ El detalle está en el [plan de pruebas](docs/plan_de_pruebas.md) y en los [caso
 - **Omisiones en listas largas (DEF-001).** El agente omitía treks al filtrar. Se corrigió obligándolo a decir cuántos resultados hay antes de listarlos.
 - **Las fuentes oficiales también tienen errores.** Fichas contradictorias, valores imposibles y escalas de dificultad incompatibles. Están documentados en [defectos.md](docs/defectos.md#hallazgos-de-calidad-en-las-fuentes-de-datos).
 - **Algunos comportamientos se reducen, pero no se eliminan, con el prompt** (DEF-005): las muletillas como "tengo registrado" reaparecen con otras palabras, en el 9,8 % de las respuestas del ciclo 2.
-- **Las pruebas de confidencialidad aprobaban, pero el sistema filtraba por otro canal** (DEF-008): el agente se negaba a revelar sus herramientas, mientras la respuesta HTTP del chat público enviaba al navegador los pasos intermedios, con nombres de herramientas y argumentos. Se detectó inspeccionando la respuesta en DevTools, no el texto.
+- **Las pruebas de confidencialidad aprobaban, pero el sistema filtraba por otro canal** (DEF-008): el agente se negaba a revelar sus herramientas, mientras la respuesta HTTP del chat público enviaba al navegador los pasos intermedios, con nombres de herramientas y argumentos. Se detectó inspeccionando la respuesta en DevTools, no el texto. Se corrigió separando un workflow público de uno de pruebas, y un script verifica que no vuelva a pasar.
 - **Una optimización de costo rompió funcionalidad** (DEF-006): un filtro en la herramienta de treks bajaba el consumo, pero provocaba bucles con treks inexistentes. La regresión lo detectó.
 
 La evolución del prompt y del dataset, con el motivo de cada cambio, está en el [registro de cambios](docs/registro_de_cambios.md).
@@ -74,9 +74,11 @@ La evolución del prompt y del dataset, con el motivo de cada cambio, está en e
 │   └── prestadores_ejemplo_anonimizado.csv
 ├── results/                     Resultados de las corridas (anonimizados)
 ├── treks_qa/
-│   └── evaluacion.py            Verificaciones deterministas y criterio único de evaluación
+│   ├── evaluacion.py            Verificaciones deterministas y criterio único de evaluación
+│   └── trayectoria.py           Herramientas llamadas en cada turno frente a las esperadas
 ├── scripts/
 │   ├── recalificar_resultados.py Recalifica resultados guardados sin llamar al agente
+│   ├── verificar_chat_publico.py Controla que el chat público no exponga pasos internos (DEF-008)
 │   ├── anonimizar_resultados.py Detecta y reemplaza datos personales en los resultados
 │   └── sanear_workflow.py       Quita credenciales e IDs de un workflow exportado
 └── tests/                       Pruebas offline con pytest (no llaman al agente)
@@ -108,7 +110,13 @@ python run_tests.py                              # ciclo completo (3 ejecuciones
 python run_tests.py --cases TC34,TC40,TC57 --interactive   # casos con pasos manuales
 ```
 
-Los resultados se guardan en `results/resultados_<fecha>.csv`. Cada mensaje al agente consume créditos de la API del modelo.
+Los resultados se guardan en `results/resultados_<fecha>.csv`, con una columna por herramienta llamada en cada turno y su evaluación frente a `herramientas_esperadas`. La respuesta completa del webhook queda en `results/raw/` (ignorada por git: puede contener contactos de prestadores). Cada mensaje al agente consume créditos de la API del modelo.
+
+Para evaluar la trayectoria, `N8N_WEBHOOK_URL` tiene que apuntar al **workflow de pruebas**, que devuelve los pasos intermedios. El chat público no debe devolverlos (DEF-008):
+
+```bash
+python scripts/verificar_chat_publico.py   # usa N8N_PUBLIC_CHAT_URL; falla si expone pasos internos
+```
 
 ### 3. Antes de publicar resultados
 
@@ -135,7 +143,8 @@ pytest -v
 - [x] Informe de resultados del ciclo 2
 - [x] Workflow saneado en el repositorio y control automático de datos personales en los resultados
 - [x] Recalificación del ciclo 2 con un criterio único y automatizado
-- [ ] Corrección de DEF-008 (pasos intermedios en el chat público)
+- [x] Corrección de DEF-008 (pasos intermedios en el chat público)
+- [x] Evaluación automática de la trayectoria de herramientas
 - [ ] Reducir DEF-005 y resolver OBS-001 en el prompt v13
 - [ ] Corrección de DEF-004 y DEF-007, y nuevo ciclo
 

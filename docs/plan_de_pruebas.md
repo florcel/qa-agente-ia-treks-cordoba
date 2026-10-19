@@ -54,7 +54,7 @@ Verificar que el agente conversacional responde preguntas sobre treks de Córdob
 - **Evaluación de cada respuesta:**
   - *Determinística*, cuando se puede: presencia de las frases fijas del system prompt, valores numéricos exactos, nombres de treks esperados y ausencia de texto prohibido.
   - *Revisión manual o LLM como juez*, para respuestas abiertas como ambigüedad y tono responsable. Toda evaluación automática por LLM se valida con una muestra revisada a mano.
-- **Uso de la herramienta:** se verifica en el historial de ejecuciones de n8n que la herramienta fue invocada. Si se puede extraer automáticamente, depende de la versión de n8n y de cómo se configure la respuesta del webhook.
+- **Uso de la herramienta (trayectoria):** el workflow de pruebas devuelve los pasos intermedios del agente. `run_tests.py` registra, en cada turno, qué herramientas llamó, con qué argumentos y cuántas filas recibió, y lo compara con la columna `herramientas_esperadas` de cada caso (`treks_qa/trayectoria.py`). Una herramienta faltante, no esperada, con el argumento equivocado o repetida con el mismo argumento es una falla con la severidad del caso. El chat público no devuelve esos pasos (DEF-008), y `scripts/verificar_chat_publico.py` lo controla.
 
 ## 5. Datos de prueba
 
