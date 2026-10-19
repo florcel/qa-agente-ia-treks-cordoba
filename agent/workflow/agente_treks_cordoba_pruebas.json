@@ -127,7 +127,7 @@
           "values": [
             {
               "lookupColumn": "localidad",
-              "lookupValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('values0_Value', `Nombre exacto del trek, tal como aparece en el índice (ej.: Cerro Uritorco)`, 'string') }}"
+              "lookupValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('values0_Value', `Localidad donde buscar prestadores (ej.: Capilla del Monte, Tanti). Si el usuario nombra un trek, usá la localidad de ese trek, no su nombre.`, 'string') }}"
             }
           ]
         },

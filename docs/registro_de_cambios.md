@@ -46,6 +46,7 @@ Cada cambio de prompt o de dataset es una versión nueva. Los resultados de las 
 | Octubre de 2026 | Filtro por localidad definido por el modelo en `buscar_prestadores` | DEF-003 |
 | 6 de octubre de 2026 | Se quitó un filtro por localidad que había quedado en `buscar_treks` | DEF-006. Las corridas hechas con ese filtro no son comparables |
 | 19 de octubre de 2026 | Dos workflows: público (sin pasos intermedios) y de pruebas (con pasos intermedios, *Embedded Chat* y *Basic Auth*). El prompt, el modelo y las herramientas son iguales en ambos | DEF-008. Las pruebas automáticas usan el workflow de pruebas |
+| 19 de octubre de 2026 | Descripción del parámetro de `buscar_prestadores`: decía "Nombre exacto del trek" aunque el filtro es por `localidad`; ahora pide la localidad y, si el usuario nombra un trek, la localidad de ese trek. En los dos workflows | Contradicción entre la herramienta y el prompt detectada en la auditoría. Antes funcionaba solo porque el prompt lo compensaba. Regresión: TC55, TC56 y TC62 cumplen la trayectoria esperada (`results/etapa2_regresion_prestadores.csv`) |
 
 ## Criterio de evaluación
 

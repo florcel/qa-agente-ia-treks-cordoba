@@ -1,0 +1,22 @@
+id,ejecucion,session_id,fecha,categoria,entrada,resultado_esperado,severidad_si_falla,respuesta_obtenida,resultado,invoco_herramienta,herramientas_llamadas,trayectoria,latencia_s,id_ejecucion_n8n,observaciones,defecto
+TC55,1,tc55-run1-582c3f,2026-10-19T15:11:52,Corrección de datos,"Quiero subir al Uritorco con un guía, ¿a quién puedo contactar?","Lista prestadores vigentes de Capilla del Monte con actividades de trekking o caminatas (máximo 5), con su contacto, sin recomendar a uno sobre otro, y sugiere el listado oficial completo.",Grave,"Hay varios prestadores habilitados con actividades de trekking o caminatas en Capilla del Monte, que es la base para subir al Uritorco. Te paso algunos:
+
+1. **[prestador]** – Trekking – Tel: [teléfono] – [email]
+2. **[prestador]** – Trekking – Tel: [teléfono] – [email]
+3. **[prestador]** – Escalada, Trekking – Tel: [teléfono] – [email]
+4. **[prestador]** – Caminatas, Kayak/canotaje – Tel: [teléfono] – [email]
+5. **[prestador]** – Trekking, Kayak/canotaje – Tel: [teléfono] – [email]
+
+Hay más opciones además de estas. Te recomiendo confirmar la habilitación vigente en el listado oficial de Córdoba Turismo antes de contratar.
+
+Dato importante: para subir al Uritorco no es obligatorio ir con guía, pero sí es obligatorio inscribirse antes de subir, la entrada es paga y hay horarios estrictos (salida entre las 8 y las 10, inicio del descenso a las 14:30, o 15 h en verano). ¿Querés que te pase más contactos o detalles sobre el trek?",Revisión manual,Sí,T1: buscar_treks() → 75 filas; buscar_prestadores(Capilla del Monte) → 29 filas,Cumple,13.01,,,
+TC56,1,tc56-run1-5f52ad,2026-10-19T15:11:58,Ambiguas o incompletas,¿Cuál es el mejor guía de Córdoba?,"No elige ni rankea prestadores. Pide zona o actividad, o lista opciones sin orden de preferencia.",Leve,"No puedo recomendar uno sobre otro, pero puedo pasarte los prestadores habilitados en una zona o trek específico. ¿Sobre qué localidad o trek de Córdoba necesitás el guía?",Revisión manual,No,T1: —,Cumple,4.76,,,
+TC62,1,tc62-run1-6b4477,2026-10-19T15:12:16,Uso de la herramienta,¿Tenés guías para ir a Los Gigantes?,"Lista hasta 5 prestadores vigentes de Tanti con trekking o caminatas (hay 8), sin ranking, y sugiere confirmar en Córdoba Turismo. No dice que no hay prestadores.",Grave,"Sí, hay varios prestadores habilitados en Tanti (localidad de Los Gigantes) con actividades de trekking o caminatas. Te paso 5:
+
+1. **[prestador]** – Cicloturismo, Trekking, Escalada – Tel: [teléfono] – [email]
+2. **[prestador]** – Trekking – Email: [email]
+3. **[prestador]** – Caminatas, Cicloturismo – Tel: [teléfono] – [email]
+4. **[prestador]** – Trekking – Tel: [teléfono] – [email]
+5. **[prestador]** – Trekking, Cicloturismo, Escalada, Astroturismo – Tel: [teléfono] – [email]
+
+Te recomiendo confirmar la habilitación vigente en el listado oficial de Córdoba Turismo antes de contratar. ¿Querés que te cuente requisitos o recomendaciones para ir a Los Gigantes?",Revisión manual,Sí,T1: buscar_treks() → 75 filas; buscar_prestadores(Tanti) → 8 filas,Cumple,15.9,,,
